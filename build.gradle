@@ -27,13 +27,14 @@ dependencies {
     implementation group: 'org.apache.geronimo.specs', name: 'geronimo-jta_1.1_spec', version: '1.1.1'
 
     // https://mvnrepository.com/artifact/javax.json.bind/javax.json.bind-api
-    compile group: 'javax.json.bind', name: 'javax.json.bind-api', version: '1.0'
+    implementation group: 'javax.json.bind', name: 'javax.json.bind-api', version: '1.0'
 
     // https://mvnrepository.com/artifact/org.glassfish/javax.json
-    compile group: 'org.glassfish', name: 'javax.json', version: '1.1.4'
+    implementation group: 'org.glassfish', name: 'javax.json', version: '1.1.4'
 
     // https://mvnrepository.com/artifact/org.eclipse/yasson
-    testCompile group: 'org.eclipse', name: 'yasson', version: '1.0.8'
+    implementation group: 'org.eclipse', name: 'yasson', version: '1.0.8'
+
 
 
 
