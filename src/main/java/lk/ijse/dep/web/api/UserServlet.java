@@ -57,14 +57,12 @@ public class UserServlet extends HttpServlet {
            }
 
         }
-
-
-
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Jsonb jsonb =JsonbBuilder.create();
+
 
         try{
             UserDTO userDTO =jsonb.fromJson(req.getReader(),UserDTO.class);
@@ -76,11 +74,14 @@ public class UserServlet extends HttpServlet {
             try(Connection connection=cp.getConnection();){
 
                 if(req.getServletPath().equals("/api/v1/auth")){
+                    System.out.println(userDTO);
                     PreparedStatement pstm1 =connection.prepareStatement("SELECT * FROM `user` WHERE username=?");
                     pstm1.setObject(1,userDTO.getUsername());
                     ResultSet rst1= pstm1.executeQuery();
                     if(rst1.next()){
                          String sha256Hex= DigestUtils.sha256Hex(userDTO.getPassword());
+                        System.out.println(sha256Hex);
+                        System.out.println(rst1.getString(2));
                         if(sha256Hex.equals(rst1.getString(2))){
                             SecretKey key= Keys.hmacShaKeyFor(Decoders.BASE64URL.decode(AppUtil.getAppSecretKey()));
                             String jws= Jwts.builder()
@@ -94,6 +95,7 @@ public class UserServlet extends HttpServlet {
                             resp.getWriter().println(jws);
 
                         }else{
+                            System.out.println("Error");
                             resp.sendError(HttpServletResponse.SC_UNAUTHORIZED);
                         }
                     }else{
@@ -114,8 +116,8 @@ public class UserServlet extends HttpServlet {
                     PreparedStatement pstm3= connection.prepareStatement("INSERT INTO `user` VALUES (?,?)");
                     pstm3.setObject(1,userDTO.getUsername());
 
-                    String sha256Hex = DigestUtils.sha256Hex(Decoders.BASE64URL.decode(userDTO.getPassword()));
-
+                    String sha256Hex = DigestUtils.sha256Hex(userDTO.getPassword());
+                    System.out.println(sha256Hex);
                     pstm3.setObject(2,sha256Hex);
 
                     if (pstm3.executeUpdate()>0){

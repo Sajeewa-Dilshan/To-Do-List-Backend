@@ -1,7 +1,7 @@
 package lk.ijse.dep.web.api;
 
 
-import com.sun.xml.internal.ws.api.ha.StickyFeature;
+
 import lk.ijse.dep.web.dto.ToDoItemDTO;
 import lk.ijse.dep.web.util.Priority;
 import lk.ijse.dep.web.util.Status;
@@ -20,7 +20,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@WebServlet
+@WebServlet(name = "ToDoItemServlet",value="/api/v1/items/*")
 public class ToDoItemServlet extends HttpServlet {
 
     @Override
